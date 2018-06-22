@@ -10,8 +10,8 @@
 #include "bulk_union_find.h"
 #include <numeric>
 #include <assert.h>
-#include <immintrin.h>
-#include <x86intrin.h>
+//#include <immintrin.h>	//incompatible with our system
+//#include <x86intrin.h>	//we have ARM, not intel
 #include "test/testing_utility.h"
 
 

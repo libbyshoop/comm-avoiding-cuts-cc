@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+#Generates graphs using networkx generators
+#Usage: $utils/generate.py 'networkx_graph_gen(parameters)' N other_options > output_dir/graph_file_name.in
+#Output: printed graph file (if no output directory and file specified) or
+#		 a graph file in the specified output directory
+
 import networkx as nx
 import sys, os
 sys.path.insert(1, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))

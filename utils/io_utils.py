@@ -2,19 +2,22 @@ import networkx as nx
 import os
 from random import randint
 
+#Description: some helpful functions used by other files for graph generation
+
+#note: sets all weights to the same weight
 def set_weights(G, weight):
-    for edge in G.edges_iter():
+    for edge in G.edges():  #G.edges_iter():  #removed from networkx 2
         G[edge[0]][edge[1]]['weight'] = weight
     return G
 
 def randomize_weights(G, max):
-    for edge in G.edges_iter():
+    for edge in G.edges():  #G.edges_iter():
         G[edge[0]][edge[1]]['weight'] = randint(1, max)
     return G
 
 def print_graph(G):
     print('{0} {1}'.format(nx.number_of_nodes(G), nx.number_of_edges(G)))
-    for edge in G.edges_iter():
+    for edge in G.edges():  #G.edges_iter():
         print('{0} {1} {2}'.format(edge[0], edge[1], G[edge[0]][edge[1]]['weight']))
 
 def read_stdin():

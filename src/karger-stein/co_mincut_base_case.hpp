@@ -16,8 +16,8 @@
 #include "math.h"
 #include <algorithm>
 #include <functional> //std:: minus
-#include <immintrin.h>
-#include <x86intrin.h>
+//#include <immintrin.h>		//incompatible with our system
+//#include <x86intrin.h>		//we have ARM, not intel
 #include "prng_engine.hpp"
 #include <thread>
 #include <limits>
