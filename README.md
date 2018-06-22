@@ -8,6 +8,82 @@ This is an implementation of the PPoPP 2018 "Parallel Communication-Avoiding Min
 - [Lukas Gianinazzi](https://github.com/glukas)
 - [Alessandro de Palma](https://github.com/AleDepo93)
 
+It has been edited and documented by Libby Shoop, Katya Gurgel, and Hannah Detlaff.
+
+Our setup was done on a cluster of 10 Odroid C2 nodes, all with ARM processors and running Ubuntu Mate 16.04. Steps may differ depending on your system.
+
+We used an nfs mounted file system so that we could compile the code once on the head node and it could seen by all nodes.  
+
+## Absolutely Necessary:
+- NFS mounted file system 
+- Boost 1.64 or newer
+- Cmake
+
+## Necessary for Graph Generation:
+- PaRMAT
+- Networkx
+- Pip3
+
+## Optional/Helpful:
+- Cluster ssh, or a similar alternative
+
+
+## How to Setup:
+
+Boost - ON ALL NODES
+Follow this link and download the tar.gz file https://www.boost.org/users/download/ 
+
+Note: We installed boost 1.67
+
+Inside the directory where the tar.gz run the following command to unzip:
+```
+tar -zfx ./boost_1_67_0.tar.gz
+```
+In order to run the bootstrap, do not go down into the tools directory, run it in boost_1_67_0 directory with
+```
+sudo ./bootstrap.sh
+```
+In the project_config.jam, created by the bootstrap script, add the line "using mpi ;" to the end of the file. IMPORTANT: There is a space before the semicolon.
+Then run: ```sudo ./b2 --with-mpi --with-graph_parallel install ``` These are the two additional boost libraries used by the code that are necessary to be built separately.
+
+You will have to fix the LD_LIBRARY_PATH in the top of your .bashrc file for your user; we placed the line “export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib” at the very top of the file.
+
+Note: The path that you want to set LD_LIBRARY_PATH might be different depending on your system; /usr/local/lib was the default location for the placement of the boost libraries on our system.
+
+Cmake - ON ALL NODES
+```
+sudo apt install cmake
+```
+PaRMAT - On Head Node Only
+
+Go to https://github.com/farkhor/PaRMAT for the code.
+
+Clone the repository.
+
+Run ```make``` in the Release folder of your clone.
+
+Note: the PaRMAT executable is now located in the Release folder and this path will be used later.  
+
+Pip3 & Networkx - On Head Node Only
+
+If you do not have pip3, install it with ```sudo apt-get install python3-pip```
+Install NetworkX with ```pip3 install networkx```
+
+
+## Necessary Changes We Made to the Original Code:
+Comment out or remove #include <immintrin.h> and #include <x86intrin.h> from comm-avoiding-cuts-cc/src/karger-stein/co_mincut_base_case.hpp and from karger-stein/bulk_union_find.cpp. 
+
+Note: These lines caused compile errors when we built the code on our cluster due to system differences.
+
+In comm-avoiding-cuts-cc/utils/io_utils.py, replace all instances of G.edges_iter() with G.edges(), as this was removed from NetworkX 2 and causes errors when running the code with that version or newer.
+
+## Other Changes Made:
+In general, adjusting the size of the problems being worked on.
+
+Running the Code:
+Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
+
+
 ## Overview
 The main C++ MPI application is located in `src`. It implements both the sparse and the dense algorithm, as well as the sequential base cases.
 
