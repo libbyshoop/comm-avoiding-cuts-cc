@@ -15,6 +15,7 @@ Our setup was done on a cluster of 10 Odroid C2 nodes, all with ARM processors a
 We used an nfs mounted file system so that we could compile the code once on the head node and it could seen by all nodes.  
 
 ## Absolutely Necessary:
+- MPICH
 - NFS mounted file system 
 - Boost 1.64 or newer
 - Cmake
@@ -29,6 +30,14 @@ We used an nfs mounted file system so that we could compile the code once on the
 
 
 ## How to Setup:
+
+MPICH - ON ALL NODES
+
+Run:
+
+```
+apt-get install mpich
+```
 
 Boost - ON ALL NODES
 Follow this link and download the tar.gz file https://www.boost.org/users/download/ 
