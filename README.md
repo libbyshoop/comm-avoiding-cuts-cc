@@ -44,7 +44,7 @@ Follow this link and download the tar.gz file https://www.boost.org/users/downlo
 
 Note: We installed boost 1.67
 
-Inside the directory where the tar.gz run the following command to unzip:
+Inside the directory where you placed the tar.gz, run the following command to unzip:
 ```
 tar -zfx ./boost_1_67_0.tar.gz
 ```
