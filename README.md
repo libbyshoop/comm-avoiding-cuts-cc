@@ -85,6 +85,12 @@ Pip3 & Networkx - On Head Node Only
 If you do not have pip3, install it with ```sudo apt-get install python3-pip```
 Install NetworkX with ```pip3 install networkx```
 
+Cluster ssh - On Head Node Only
+
+```
+sudo apt-get install clusterssh
+```
+
 Having an NFS mounted file system is also absolutely necessary. Once this is set up, and all the above has been completed, go ahead and clone this repository and place the files on the NFS mounted file system.
 
 ## Necessary Changes We Made to the Original Code:
