@@ -19,6 +19,7 @@ We used an nfs mounted file system so that we could compile the code once on the
 - NFS mounted file system 
 - Boost 1.64 or newer
 - Cmake
+- Git
 
 ## Necessary for Graph Generation:
 - PaRMAT
@@ -63,6 +64,12 @@ Cmake - ON ALL NODES
 ```
 sudo apt install cmake
 ```
+
+Git - On Head Node Only 
+```
+sudo apt-get install git
+```
+
 PaRMAT - On Head Node Only
 
 Go to https://github.com/farkhor/PaRMAT for the code.
@@ -78,8 +85,11 @@ Pip3 & Networkx - On Head Node Only
 If you do not have pip3, install it with ```sudo apt-get install python3-pip```
 Install NetworkX with ```pip3 install networkx```
 
+Having an NFS mounted file system is also absolutely necessary. Once this is set up, and all the above has been completed, go ahead and clone this repository and place the files on the NFS mounted file system.
 
 ## Necessary Changes We Made to the Original Code:
+The following describes changes we made to the original code that were absolutely necessary on our system for the code to compile. If working with code cloned from our repository, note that these changes have already been completed.
+
 Comment out or remove #include <immintrin.h> and #include <x86intrin.h> from comm-avoiding-cuts-cc/src/karger-stein/co_mincut_base_case.hpp and from karger-stein/bulk_union_find.cpp. 
 
 Note: These lines caused compile errors when we built the code on our cluster due to system differences.
@@ -92,6 +102,7 @@ In general, adjusting the size of the problems being worked on.
 Running the Code:
 Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
 
+Beyond this point, the rest of the README is from the original fork at https://github.com/PJK/comm-avoiding-cuts-cc.
 
 ## Overview
 The main C++ MPI application is located in `src`. It implements both the sparse and the dense algorithm, as well as the sequential base cases.
