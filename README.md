@@ -46,7 +46,7 @@ Note: We installed boost 1.67
 
 Inside the directory where you placed the tar.gz, run the following command to unzip:
 ```
-tar -zfx ./boost_1_67_0.tar.gz
+tar -zxf ./boost_1_67_0.tar.gz
 ```
 In order to run the bootstrap, do not go down into the tools directory, run it in boost_1_67_0 directory with
 ```
