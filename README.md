@@ -12,7 +12,7 @@ It has been edited and documented by Libby Shoop, Katya Gurgel, and Hannah Detla
 
 Our setup was done on a cluster of 10 Odroid C2 nodes, all with ARM processors and running Ubuntu Mate 16.04. Steps may differ depending on your system.
 
-We used an nfs mounted file system so that we could compile the code once on the head node and it could seen by all nodes.  
+We used an nfs mounted file system so that we could compile the code once on the head node and it could seen by all nodes. This is a much easier way to run MPI code. See notes below about setting up an NFS mounted pen drive or disk drive. 
 
 ## Absolutely Necessary:
 - MPICH
@@ -108,6 +108,93 @@ In general, adjusting the size of the problems being worked on.
 Running the Code:
 Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
 
+## NFS Mounting of a Drive
+Here we show how we mount a Samsung pen drive on a picocluster of ODroid C2 cards running Ubuntu MATE 16.04. You will have to improvise off these steps for your particular microcluster.
+
+### Head node only
+
+After installing the flash drive, df will show you its file system name and where it was mounted. It is the 
+last entry shown below:
+
+```
+picocluster@pc0:~$ df
+Filesystem     1K-blocks    Used Available Use% Mounted on
+udev              730764       0    730764   0% /dev
+tmpfs             175860   14004    161856   8% /run
+/dev/mmcblk0p2   7507936 6733700    552064  93% /
+tmpfs             879296   43452    835844   5% /dev/shm
+tmpfs               5120       4      5116   1% /run/lock
+tmpfs             879296       0    879296   0% /sys/fs/cgroup
+/dev/mmcblk0p1    130798   22676    108122  18% /media/boot
+cgmfs                100       0       100   0% /run/cgmanager/fs
+tmpfs             175860      36    175824   1% /run/user/1001
+/dev/sda1       62656512    3712  62652800   1% /media/picocluster/Samsung USB
+```
+First simply unmount this so that you can gvie it a name you prefer and ensure that it is formatted for linux:
+
+```
+picocluster@pc0:~$ sudo umount /media/picocluster/Samsung\ USB
+```
+Format it:
+```
+picocluster@pc0:~$ sudo mkfs.ext4 /dev/sda -L cluster_files
+mke2fs 1.42.13 (17-May-2015)
+Found a dos partition table in /dev/sda
+Proceed anyway? (y,n) y
+Creating filesystem with 15664160 4k blocks and 3916304 inodes
+Filesystem UUID: df4c9018-8268-44c6-9878-846ea3cb87fd
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000, 7962624, 11239424
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (32768 blocks): done
+Writing superblocks and filesystem accounting information: done 
+```
+
+Before mounting, we need to make a directory in /media that we will mount to. We called it /media/cluster_files, like this:
+```
+picocluster@pc0:~$ sudo mkdir /media/cluster_files
+```
+
+To make the mount permanent, we need to add this new directory to /etc/fstab. Add this line to the end of /etc/fstab (editing it a sudo).
+```
+/dev/sda /media/cluster_files ext4 defaults 0 0
+```
+
+Then we can mount that directory by having it read from /etc/fstab:
+```
+picocluster@pc0:~$ sudo mount /media/cluster_files
+```
+
+Now we need the install the NFS software:
+```
+picocluster@pc0:~$ sudo apt update
+picocluster@pc0:~$ sudo apt install nfs-common nfs-kernel-server
+```
+Then we need to make the file system available to all machines in our cluster by adding this line to /etc/exports (editing it a sudo):
+
+```
+/media/cluster_files *(rw,sync,no_subtree_check)
+```
+Lastly, start the nfs service on the head node and export the file system. This will be done automatically each time you reboot after this.
+```
+picocluster@pc0:~$ sudo service nfs-kernel-server start
+picocluster@pc0:~$ sudo exportfs -a
+```
+
+### Only on rest of the nodes in the cluster
+
+The other nodes will be able to mount the file system by doing the following:
+
+
+1. install nfs
+2. make directory /media/cluster_files
+3. edit fstab
+4. mount -a
+
+---------------------------------------------------------------------------------------
 Beyond this point, the rest of the README is from the original fork at https://github.com/PJK/comm-avoiding-cuts-cc.
 
 ## Overview
