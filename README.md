@@ -36,7 +36,7 @@ MPICH - ON ALL NODES
 Run:
 
 ```
-apt-get install mpicc
+apt-get install mpich
 ```
 
 Boost - ON ALL NODES
