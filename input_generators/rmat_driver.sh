@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Generates a graph with PaRMAT
-# Usage: path_to_parmat_executable num_vertices num_edges
+# Usage: ./rmat_driver.sh path_to_parmat_executable num_vertices num_edges > output_dir/graphname.in
 
 #TODO: Maybe, if we want, we could incorporate some of the other optional arguments
 #for the PaRMAT call, since it is capable of doing undirected graphs or naming the 
@@ -33,3 +33,4 @@ ${parmat_path} -nVertices ${vertices} -nEdges ${edges} -memUsage 0.9 -noEdgeToSe
 #Use sed to adjust the output of the above PaRMAT graph generation call, which is
 #stored in out.txt, to work with the code
 ${sed} -r 's/^([0-9]+)[ \t]*([0-9]+)/\1 \2 1/' out.txt
+

@@ -15,6 +15,8 @@ typedef boost::erdos_renyi_iterator<boost::minstd_rand, Graph> ERGen;
  *
  * TODO this assumes bidirectedS -- check for traits?
  * TODO this is so ugly because BGL_FORALL_VERTICES cannot take a dependent type argument
+ *
+ *Note: mostly the same as the original code, added ability to set the seed
  */
 #define SERIALIZE(GraphType, g, out) \
 	{ \
@@ -30,8 +32,13 @@ typedef boost::erdos_renyi_iterator<boost::minstd_rand, Graph> ERGen;
 int main(int argc, char* argv[]) {
 	unsigned long n = std::stoul(argv[1]);
 	unsigned long d = std::stoul(argv[2]);
+	unsigned int seed = std::stoul(argv[3]); //We added an argument for the seed
+						//to allow for different graphs
 
 	boost::minstd_rand gen;
+
+	gen.seed(seed);
+
 	Graph g(ERGen(gen, n, (n * d * 2) / double(n * n)), ERGen(), n);
 
 	SERIALIZE(Graph, g, std::cout);
