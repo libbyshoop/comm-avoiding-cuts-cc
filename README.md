@@ -72,13 +72,20 @@ sudo apt-get install git
 
 PaRMAT - On Head Node Only
 
+This is a graph generator that is used to make RMAT graphs for testing.
+
 Go to https://github.com/farkhor/PaRMAT for the code.
 
-Clone the repository.
+Clone the repository. We did this in the home directory of our picocluster user.
 
 Run ```make``` in the Release folder of your clone.
 
-Note: the PaRMAT executable is now located in the Release folder and this path will be used later.  
+Note: the PaRMAT executable is now located in the Release folder.  We need to place it where all users can access it.
+Still from the Release folder, copy the executable to a place in all users' PATH:
+
+```
+sudo cp PaRMAT /usr/local/bin/
+```
 
 Pip3 & Networkx - On Head Node Only
 
