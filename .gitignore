@@ -109,7 +109,7 @@ src/CMakeFiles/*
 **/__pycache__
 
 report/bsp-mincut.pdf
-*.in
+
 evaluation/.Rhistory
 
 sc-paper/co-bsp-mincut.pdf
