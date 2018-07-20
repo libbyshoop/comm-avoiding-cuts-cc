@@ -1,0 +1,20 @@
+# 2018-06-21 15:02:58.513058 c68e21ee70de57cd2ccd5caaafe6f37744fc9ed2 Namespace(N=10, edges=None, graph='wheel_graph(N)', k=None, prob=None, seed=1234, set_weights=<function set_weights at 0x7f7ffb0a60>, weight=100)
+10 18
+0 1 100
+0 2 100
+0 3 100
+0 4 100
+0 5 100
+0 6 100
+0 7 100
+0 8 100
+0 9 100
+1 9 100
+1 2 100
+2 3 100
+3 4 100
+4 5 100
+5 6 100
+6 7 100
+7 8 100
+8 9 100

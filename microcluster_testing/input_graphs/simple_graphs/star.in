@@ -1,0 +1,12 @@
+# 2018-06-21 15:02:55.947666 c68e21ee70de57cd2ccd5caaafe6f37744fc9ed2 Namespace(N=10, edges=None, graph='star_graph(N)', k=None, prob=None, seed=1234, set_weights=<function set_weights at 0x7fb1a97a60>, weight=100)
+11 10
+0 1 100
+0 2 100
+0 3 100
+0 4 100
+0 5 100
+0 6 100
+0 7 100
+0 8 100
+0 9 100
+0 10 100
