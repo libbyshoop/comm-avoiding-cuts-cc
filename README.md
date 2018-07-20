@@ -82,8 +82,13 @@ Note: the PaRMAT executable is now located in the Release folder and this path w
 
 Pip3 & Networkx - On Head Node Only
 
-If you do not have pip3, install it with ```sudo apt-get install python3-pip```
-Install NetworkX with ```pip3 install networkx```
+If you do not have pip3, install it with:
+
+```sudo apt-get install python3-pip```
+
+Install NetworkX with:
+
+```sudo pip3 install --target=/usr/local/lib/python3.5/dist-packages/ network```
 
 Cluster ssh - On Head Node Only
 
