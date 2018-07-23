@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import networkx as nx
 import sys, os, datetime
 
@@ -9,7 +11,7 @@ import sys, os, datetime
 #line and num nodes num edges line before an edge list. If it is not, use one of 
 #the other scripts in this directory or one of your own scripts to clean it up.
 
-# Usage: python ./clean_node_nums.py INPUT_FILE > OUTPUT_DIR/OUTPUT_FILE
+# Usage: python3 ./clean_node_nums.py INPUT_FILE > OUTPUT_DIR/OUTPUT_FILE
 
 file = open(sys.argv[1], mode="r")
 lines = file.readlines()

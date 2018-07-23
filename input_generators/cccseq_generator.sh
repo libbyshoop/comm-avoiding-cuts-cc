@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+#Script for generating graphs for figure 4 a and b
 #Usage: ./cccseq_generator.sh path_to_output_dir
 
 #current directory

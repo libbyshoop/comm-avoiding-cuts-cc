@@ -28,7 +28,7 @@ typedef boost::erdos_renyi_iterator<boost::minstd_rand, Graph> ERGen;
 	}
 
 
-// Usage N avg_d
+// Usage N avg_d seed
 int main(int argc, char* argv[]) {
 	unsigned long n = std::stoul(argv[1]);
 	unsigned long d = std::stoul(argv[2]);
