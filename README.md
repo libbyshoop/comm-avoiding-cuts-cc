@@ -20,6 +20,7 @@ We used an nfs mounted file system so that we could compile the code once on the
 - Boost 1.64 or newer
 - Cmake
 - Git
+- Passwordless ssh between all nodes
 
 ## Necessary for Graph Generation:
 - PaRMAT
@@ -32,7 +33,7 @@ We used an nfs mounted file system so that we could compile the code once on the
 
 ## How to Setup:
 
-MPICH - ON ALL NODES
+#### MPICH - ON ALL NODES
 
 Run:
 
@@ -40,7 +41,7 @@ Run:
 apt-get install mpich
 ```
 
-Boost - ON ALL NODES
+#### Boost - ON ALL NODES
 Follow this link and download the tar.gz file https://www.boost.org/users/download/ 
 
 Note: We installed boost 1.67
@@ -60,17 +61,17 @@ You will have to fix the LD_LIBRARY_PATH in the top of your .bashrc file for you
 
 Note: The path that you want to set LD_LIBRARY_PATH might be different depending on your system; /usr/local/lib was the default location for the placement of the boost libraries on our system.
 
-Cmake - ON ALL NODES
+#### Cmake - ON ALL NODES
 ```
 sudo apt install cmake
 ```
 
-Git - On Head Node Only 
+#### Git - On Head Node Only 
 ```
 sudo apt-get install git
 ```
 
-PaRMAT - On Head Node Only
+#### PaRMAT - On Head Node Only
 
 This is a graph generator that is used to make RMAT graphs for testing.
 
@@ -87,38 +88,36 @@ Still from the Release folder, copy the executable to a place in all users' PATH
 sudo cp PaRMAT /usr/local/bin/
 ```
 
-Pip3 & Networkx - On Head Node Only
+#### Pip3 & Networkx - On Head Node Only
 
 If you do not have pip3, install it with:
 
-```sudo apt-get install python3-pip```
+```
+sudo apt-get install python3-pip
+```
 
 Install NetworkX with:
 
-```sudo pip3 install --target=/usr/local/lib/python3.5/dist-packages/ network```
+```
+sudo pip3 install --target=/usr/local/lib/python3.5/dist-packages/ network
+```
 
-Cluster ssh - On Head Node Only
+#### Cluster ssh - On Head Node Only
 
 ```
 sudo apt-get install clusterssh
 ```
 
-Having an NFS mounted file system is also absolutely necessary. Once this is set up, and all the above has been completed, go ahead and clone this repository and place the files on the NFS mounted file system.
+Set up the host file for cluster ssh:
 
-## Necessary Changes We Made to the Original Code:
-The following describes changes we made to the original code that were absolutely necessary on our system for the code to compile. If working with code cloned from our repository, note that these changes have already been completed.
+Edit /etc/clusters to contain something similar to the following; the names will be different:
+```
+minnow pc0 pc1 pc2 pc3 pc4 pc5 pc6 pc7 pc8 pc9
+minnow_crew pc1 pc2 pc3 pc4 pc5 pc6 pc7 pc8 pc9
+```
+The format is cluster name followed by the names of the nodes you want in the cluster.
 
-Comment out or remove #include <immintrin.h> and #include <x86intrin.h> from comm-avoiding-cuts-cc/src/karger-stein/co_mincut_base_case.hpp and from karger-stein/bulk_union_find.cpp. 
-
-Note: These lines caused compile errors when we built the code on our cluster due to system differences.
-
-In comm-avoiding-cuts-cc/utils/io_utils.py, replace all instances of G.edges_iter() with G.edges(), as this was removed from NetworkX 2 and causes errors when running the code with that version or newer.
-
-## Other Changes Made:
-In general, adjusting the size of the problems being worked on.
-
-Running the Code:
-Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
+Having an NFS mounted file system is also absolutely necessary. We describe this process below. Once this is set up, and all the above has been completed, go ahead and clone this repository and place the files on the NFS mounted file system.
 
 ## NFS Mounting of a Drive
 Here we show how we mount a Samsung pen drive on a picocluster of ODroid C2 cards running Ubuntu MATE 16.04. You will have to improvise off these steps for your particular microcluster.
@@ -196,7 +195,7 @@ picocluster@pc0:~$ sudo service nfs-kernel-server start
 picocluster@pc0:~$ sudo exportfs -a
 ```
 
-### Only on rest of the nodes in the cluster
+### On every node but the head node in the cluster
 
 The other nodes will be able to mount the file system by doing the following:
 
@@ -205,6 +204,78 @@ The other nodes will be able to mount the file system by doing the following:
 2. make directory /media/cluster_files
 3. edit fstab
 4. mount -a
+
+## Hostfile
+
+You will need a file on your NFS mounted file system with a list of the names of the nodes in your cluster.
+
+We had the following:
+```
+pc0:4
+pc1:4
+pc2:4
+pc3:4
+pc4:4
+pc5:4
+pc6:4
+pc7:4
+pc8:4
+pc9:4
+```
+The purpose of the :4 is to avoid round robin scheduling. We did this because the algorithm ran more efficiently with this type of scheduling. The number is 4 because each of our nodes has 4 cores.  
+
+## Necessary Changes We Made to the Original Code:
+The following describes changes we made to the original code that were absolutely necessary on our system for the code to compile. If working with code cloned from our repository, note that these changes have already been completed.
+
+Comment out or remove #include <immintrin.h> and #include <x86intrin.h> from comm-avoiding-cuts-cc/src/karger-stein/co_mincut_base_case.hpp and from karger-stein/bulk_union_find.cpp. 
+
+Note: These lines caused compile errors when we built the code on our cluster due to system differences.
+
+In comm-avoiding-cuts-cc/utils/io_utils.py, replace all instances of G.edges_iter() with G.edges(), as this was removed from NetworkX 2 and causes errors when running the code with that version or newer.
+
+## Other Changes Made:
+
+- In general, adjusting the size of the problems being worked on
+- Added a seed parameter to the er_generator.sh in the src/executables; previously it always used the same seed
+- rmat_driver.sh and all scripts that use it no longer take a path to PaRMAT as a command line argument
+- We have added scripts in input_generators, utils, and experiment runners
+
+## Testing the Setup
+
+Making the Code:
+Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
+
+At this point you should be able to test the minimum cut algorithm across your cluster.  
+
+cd into the directory where you cloned the repository, and then go into the src directory generated by cmake.  Note: DO NOT go into comm-avoiding-cuts-cc. From there cd into executables.  From here you should be able to run the following command:
+```
+mpirun -f <NAME_OF_HOST_FILE> -np 4 ./square_root 0.9 ../../comm-avoiding-cuts-cc/microcluster_testing/input_graphs/mc_er_inputs/er_200_2.in 1234
+```
+This runs min cut (named square_root) on an Erdos-Renyi graph with 200 vertices and average degree of 2 on 4 processes.
+
+## Running Min Cuts (square_root)
+
+#### Arguments:
+- Success probabilty: a decimal > 0 and < 1
+- Graph file: in the format of a comment followed by a line containin the number of vertices and edges followed by a weighted edge list with one edge per line
+- Seed: an integer value for randomization
+
+#### Example:
+```
+mpirun -f <NAME_OF_HOST_FILE> -np 4 ./square_root 0.9 ../../comm-avoiding-cuts-cc/microcluster_testing/input_graphs/mc_er_inputs/er_200_2.in 1234
+```
+#### Output:
+A comma seperated list with the following in order
+- Name of input file
+- Seed
+- Number of processes
+- Number of vertices
+- Number of edges
+- Total time
+- MPI time
+- Number of trials
+- Concurrency: low or high
+- Value of the min cut taking weight into account
 
 ---------------------------------------------------------------------------------------
 Beyond this point, the rest of the README is from the original fork at https://github.com/PJK/comm-avoiding-cuts-cc.
