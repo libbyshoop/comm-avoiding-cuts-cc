@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 # Generates a graph with PaRMAT
-# Usage: ./rmat_driver.sh path_to_parmat_executable num_vertices num_edges > output_dir/graphname.in
+# Usage: ./rmat_driver.sh vertices edges > output_dir/graphname.in
+
+#NOTE: This script will generate an out.txt each time it is run
 
 #TODO: Maybe, if we want, we could incorporate some of the other optional arguments
 #for the PaRMAT call, since it is capable of doing undirected graphs or naming the 
 #output file differently, etc., if we use more arguments
 
-# Our path to parmat: ~/builds/PaRMAT/Release/PaRMAT
-parmat_path=$1
-vertices=$2
-edges=$3
+#parmat_path=$1		# Change made 7/23/18: removed the parmat path as a parameter; made PaRMAT globally available
+vertices=$1
+edges=$2
 
 set -x
 
@@ -23,12 +24,12 @@ else
 	sed=sed
 fi
 
-echo "# RMAT driver ${parmat_path} ${vertices} ${edges} $(date)"
+echo "# RMAT driver PaRMAT ${vertices} ${edges} $(date)"
 echo ${vertices} ${edges}
 
 #Uses PaRMAT to generate a graph with a certain number of vertices and edges, the
 #specified amount of memory usage, and no edges to self or duplicate edges
-${parmat_path} -nVertices ${vertices} -nEdges ${edges} -memUsage 0.9 -noEdgeToSelf -noDuplicateEdges 1>&2
+PaRMAT -nVertices ${vertices} -nEdges ${edges} -memUsage 0.9 -noEdgeToSelf -noDuplicateEdges 1>&2
 
 #Use sed to adjust the output of the above PaRMAT graph generation call, which is
 #stored in out.txt, to work with the code
