@@ -99,7 +99,7 @@ sudo apt-get install python3-pip
 Install NetworkX with:
 
 ```
-sudo pip3 install --target=/usr/local/lib/python3.5/dist-packages/ network
+sudo pip3 install --target=/usr/local/lib/python3.5/dist-packages/ networkx
 ```
 
 #### Cluster ssh - On Head Node Only
