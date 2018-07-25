@@ -10,14 +10,15 @@
 #cut experiments, as it makes the best use of the communication-avoiding structure of the algorithm.
 #There is another script using round robin on Erdos-Renyi graphs for testing/comparison purposes.
 
-# Usage: ./mc_sparse_er_runner_no_rr_mac.sh INPUT_DIR OUTPUT_DIR MAX_PROCS
+# Usage: ./mc_sparse_er_runner_no_rr_mac.sh INPUT_DIR OUTPUT_DIR HOST_FILE MAX_PROCS
 
 #our input_dir=../input_graphs/mc_er_inputs/
 #our output_dir=../test_results/mc_sparse_er_no_rr_results/
 
 input_dir=$1
 output_dir=$2
-max_procs=$3
+host_file=$3	#our hostfile: /media/cluster_files/cluster_nodes
+max_procs=$4
 
 graph_sizes=( 200 400 600 800 1200 1600 2400 3200 4800)
 
@@ -27,7 +28,7 @@ do
 
 	echo "Running tests on graphs of ${size} vertices and avg deg: ${degree}"
 
-	./mc_test_no_rr_mac.sh ${input_dir}/er_${size}_${degree}.in ${max_procs} > ${output_dir}/mc_er_no_rr_${size}_${degree}.txt
+	./mc_test_mac.sh ${input_dir}/er_${size}_${degree}.in ${host_file} ${max_procs} > ${output_dir}/mc_er_no_rr_${size}_${degree}.txt
 
 	echo "${size}-vertice graph tests complete"
 done

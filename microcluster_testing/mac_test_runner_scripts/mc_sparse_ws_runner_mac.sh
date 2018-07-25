@@ -6,14 +6,15 @@
 #
 # Note that you must specify your max number of processes (added parameter in case 40 is too high for your system)
 
-#Usage: ./mc_sparse_ws_runner_mac.sh INPUT_DIR OUTPUT_DIR MAX_PROCS
+#Usage: ./mc_sparse_ws_runner_mac.sh INPUT_DIR OUTPUT_DIR HOST_FILE MAX_PROCS
 
 #our input_dir=../input_graphs/mc_ws_inputs/
 #our output_dir=../test_results/mc_sparse_ws_results/
 
 input_dir=$1
 output_dir=$2
-max_procs=$3
+host_file=$3
+max_procs=$4
 
 graph_sizes=( 200 300 400 600 800 1200 1600 2400 3200 4800)
 
@@ -23,7 +24,7 @@ do
 
 	echo "Running tests on WS graphs of ${size} vertices and k = ${k_neighbors}"
 
-	./mc_test_no_rr_mac.sh ${input_dir}/ws_${size}_${k_neighbors}.in ${max_procs} > ${output_dir}/mc_ws_no_rr_${size}_${degree}.txt
+	./mc_test_mac.sh ${input_dir}/ws_${size}_${k_neighbors}.in ${host_file} ${max_procs} > ${output_dir}/mc_ws_no_rr_${size}_${k_neighbors}.txt
 
 	echo "${size}-vertice graph tests complete"
 done

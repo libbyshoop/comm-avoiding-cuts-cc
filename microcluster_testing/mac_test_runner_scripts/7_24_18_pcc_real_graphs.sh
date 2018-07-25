@@ -6,22 +6,23 @@
 #
 # Note: this script uses round robin
 
-# Usage: ./mc_sparse_er_runner_no_rr_mac.sh OUTPUT_DIR MAX_PROCS
+# Usage: ./7_24_18_pcc_real_graphs.sh OUTPUT_DIR HOST_FILE MAX_PROCS
 
 #our output_dir=../test_results/pcc_real_results/
 
 output_dir=$1
-max_procs=$2
+host_file=$2	#our host file: /media/cluster_files/cluster_nodes_rr
+max_procs=$3
 
-echo "Running tests on web-NotreDame.in graph, 1/2"
+echo "Running tests on web-NotreDame.in graph, 1/1"
 
-./pcc_test_mac.sh ../input_graphs/real_data_graphs/web-NotreDame.in ${max_procs} > ${output_dir}/pcc_web-NotreDame.txt
+./pcc_test_mac.sh ../input_graphs/real_data_graphs/web-NotreDame.in ${host_file} ${max_procs} > ${output_dir}/pcc_web-NotreDame.txt
 
 #REMOVED BECAUSE THE GRAPHS DO NOT WORK WITH THE ALGORITHM
 
 #echo "Running tests on web-Stanford.in graph, 2/3"
-#./pcc_test_mac.sh ../input_graphs/real_data_graphs/web-Stanford.in ${max_procs} > ${output_dir}/pcc_web-Stanford.txt
+#./pcc_test_mac.sh ../input_graphs/real_data_graphs/web-Stanford.in ${host_file} ${max_procs} > ${output_dir}/pcc_web-Stanford.txt
 
 #echo "Running tests on youtube-links.in graph, 3/3"
-#./pcc_test_mac.sh ../input_graphs/real_data_graphs/youtube-links.in ${max_procs} > ${output_dir}/pcc_youtube-links.txt
+#./pcc_test_mac.sh ../input_graphs/real_data_graphs/youtube-links.in ${host_file} ${max_procs} > ${output_dir}/pcc_youtube-links.txt
 
