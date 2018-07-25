@@ -23,7 +23,7 @@ do
 
 	echo "Running tests on WS graphs of ${size} vertices and k = ${k_neighbors}"
 
-	./mc_test_mac.sh ${input_dir}/ws_${size}_${k_neighbors}.in ${max_procs} > ${output_dir}/mc_ws_${size}_${degree}.txt
+	./mc_test_no_rr_mac.sh ${input_dir}/ws_${size}_${k_neighbors}.in ${max_procs} > ${output_dir}/mc_ws_no_rr_${size}_${degree}.txt
 
 	echo "${size}-vertice graph tests complete"
 done

@@ -22,7 +22,7 @@ for size in "${graph_sizes[@]}";
 do
 	echo "Running tests on graphs of ${size} vertices"
 
-	./mc_test_mac.sh ${input_dir}/er_${size}_${degree}.in ${max_procs} > ${output_dir}/mc_er_${size}_${degree}.txt
+	./mc_test_no_rr_mac.sh ${input_dir}/er_${size}_${degree}.in ${max_procs} > ${output_dir}/mc_er_no_rr_${size}_${degree}.txt
 
 	echo "${size}-vertice graph tests complete"
 done

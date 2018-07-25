@@ -1,3 +1,6 @@
+#rmat intermediate file output:
+out.txt
+
 *.o
 !lib/levine/bin/*
 

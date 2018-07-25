@@ -25,7 +25,7 @@ do
 
 	echo "Running tests on graphs of ${size} vertices with ${edges} edges"
 
-	./mc_test_mac.sh ${input_dir}/rmat_${size}_${edges}.in ${max_procs} > ${output_dir}/mc_rmat_${size}_${edges}.txt
+	./mc_test_no_rr_mac.sh ${input_dir}/rmat_${size}_${edges}.in ${max_procs} > ${output_dir}/mc_rmat_no_rr_${size}_${edges}.txt
 
 	echo "${size}-vertice graph tests complete"
 done
