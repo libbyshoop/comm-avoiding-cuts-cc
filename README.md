@@ -281,6 +281,31 @@ A comma seperated list with the following in order
 - Concurrency: low or high
 - Value of the min cut taking weight into account
 
+## Running Parallel Connected Components (parallel_cc)
+
+#### Arguments:
+- Graph file: in the same format as described above for Min Cuts
+- Seed: an integer value for randomization
+
+#### Example:
+```
+mpirun -f <NAME_OF_HOST_FILE> -np 4 ./parallel_cc ../../comm-avoiding-cuts-cc/microcluster_testing/input_graphs/mc_er_inputs/real_data_graphs/fb_combined.in
+```
+
+Note: parallel_cc only works on large graphs.  Very small graphs may cause errors and even medium graphs with large numbers of proccesses can cause errors as well. Generally speaking you need a graph with at least 1200 nodes to be able to run 40 processes on it without it failing.  
+
+#### Output:
+A comma separated list with the following in order
+- Name of input file
+- Seed
+- Number of processes
+- Number of vertices
+- Number of edges
+- Total time
+- MPI time
+- cc
+- Number of connected components
+
 ---------------------------------------------------------------------------------------
 Beyond this point, the rest of the README is from the original fork at https://github.com/PJK/comm-avoiding-cuts-cc.
 
