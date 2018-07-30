@@ -257,6 +257,8 @@ mpirun -f <NAME_OF_HOST_FILE> -np 4 ./square_root 0.9 ../../comm-avoiding-cuts-c
 ```
 This runs min cut (named square_root) on an Erdos-Renyi graph with 200 vertices and average degree of 2 on 4 processes.
 
+You can also test different numbers of processes.  On our machine we were able to go up to 40 processes and our test scripts reflect that.  If you have less processes you should be able to run any of our scripts by simply changing the MAX_PROCS argument to the maximum number of processes your maching can handle.  Because our experiments often showed strong scaling out to 40 processes you should be able to see the same scaling with less processes.  
+
 ## Running Min Cuts (square_root)
 
 #### Arguments:
