@@ -1,14 +1,18 @@
-# Parallel Communication-Avoiding Minimum Cuts and Connected Components
+# Parallel Communication-Avoiding Minimum Cuts and Connected Components on microclusters
 
 [![DOI](https://zenodo.org/badge/114050916.svg)](https://zenodo.org/badge/latestdoi/114050916)
 
-This is an implementation of the PPoPP 2018 "Parallel Communication-Avoiding Minimum Cuts and Connected Components" paper by
+This is a fork of an implementation of the PPoPP 2018 "Parallel Communication-Avoiding Minimum Cuts and Connected Components" paper by
 
 - [Pavel Kalvoda](https://github.com/PJK)
 - [Lukas Gianinazzi](https://github.com/glukas)
 - [Alessandro de Palma](https://github.com/AleDepo93)
 
 It has been edited and documented by Libby Shoop, Katya Gurgel, and Hannah Detlaff.
+
+Our goal with this fork is to replicate this code on a small microcluster (a cluster of single-board computers) as a PDC exemplar for undergraduate education. This code scales down to micoclusters very well and produces results that can demonstrate scalability in a distributed computing course. This repository contains extra scripts and documentation designed to make it possible for educators and students to try this code on their own clusters.
+
+This readme begins with setup information. See [the microcluster wiki for this repository][https://github.com/libbyshoop/comm-avoiding-cuts-cc/wiki] for detailed information about how to run experiments on different sized microclusters.
 
 Our setup was done on a cluster of 10 Odroid C2 nodes, all with ARM processors and running Ubuntu Mate 16.04. Steps may differ depending on your system.
 
@@ -279,6 +283,12 @@ A comma seperated list with the following in order
 
 ---------------------------------------------------------------------------------------
 Beyond this point, the rest of the README is from the original fork at https://github.com/PJK/comm-avoiding-cuts-cc.
+
+See also [the microcluster wiki for this repository][https://github.com/libbyshoop/comm-avoiding-cuts-cc/wiki]
+for more information about running other tests that replicate the author's results on smaller input graphs and 
+how to run further tests that investigate whether a difference in input graphs causes a difference in performance.
+
+----------------------------------------------------------------------------------------------------------
 
 ## Overview
 The main C++ MPI application is located in `src`. It implements both the sparse and the dense algorithm, as well as the sequential base cases.
