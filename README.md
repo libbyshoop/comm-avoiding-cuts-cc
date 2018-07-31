@@ -253,11 +253,25 @@ In comm-avoiding-cuts-cc/utils/io_utils.py, replace all instances of G.edges_ite
 - Added a seed parameter to the er_generator.sh in the src/executables; previously it always used the same seed
 - rmat_driver.sh and all scripts that use it no longer take a path to PaRMAT as a command line argument
 - We have added scripts in input_generators, utils, and experiment runners
+- For the Raspberry pi cluster we had to comment out line 50 in AdjacencyListGraph.hpp that was an static assert to the size of the edge.
+
+You should now have everything ready to clone this repository?
+From the command line you can use the command:
+```
+git clone <link_to_this_repo>
+```
 
 ## Testing the Setup
 
 Making the Code:
-Run ```cmake comm-avoiding-cuts-cc``` in the directory where you placed your clone and then run ```make```. 
+Run 
+```
+cmake comm-avoiding-cuts-cc
+``` 
+in the directory where you placed your clone and then run 
+```
+make
+``` 
 
 At this point you should be able to test the minimum cut algorithm across your cluster.  
 
