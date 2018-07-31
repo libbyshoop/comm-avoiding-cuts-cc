@@ -59,10 +59,20 @@ In order to run the bootstrap, do not go down into the tools directory, run it i
 sudo ./bootstrap.sh
 ```
 In the project_config.jam, created by the bootstrap script, add the line "using mpi ;" to the end of the file. IMPORTANT: There is a space before the semicolon.
-Then run: ```sudo ./b2 --with-mpi --with-graph_parallel install ``` These are the two additional boost libraries used by the code that are necessary to be built separately.
-
-You will have to fix the LD_LIBRARY_PATH in the top of your .bashrc file for your user; we placed the line “export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib” at the very top of the file.
-
+Then run: 
+```
+sudo ./b2 --with-mpi --with-graph_parallel install
+```
+These are the two additional boost libraries used by the code that are necessary to be built separately.
+If you are using a raspberry pi running rasbian you will need three more boost libraries.  Install them with:
+```
+sudo ./b2 --with-chrono --with-system --with-timer install
+```
+You will have to fix the LD_LIBRARY_PATH in the top of your .bashrc file for your user; we placed the line “export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib” at the very top of the file. The .bashrc file is located in your home directory use ```ls -a``` to see it.
+To have the changes you made in .bashrc take effect run:
+```
+source ~/.bashrc 
+```
 Note: The path that you want to set LD_LIBRARY_PATH might be different depending on your system; /usr/local/lib was the default location for the placement of the boost libraries on our system.
 
 #### Cmake - ON ALL NODES
