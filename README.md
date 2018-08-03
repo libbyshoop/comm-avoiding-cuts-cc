@@ -155,7 +155,7 @@ cgmfs                100       0       100   0% /run/cgmanager/fs
 tmpfs             175860      36    175824   1% /run/user/1001
 /dev/sda1       62656512    3712  62652800   1% /media/picocluster/Samsung USB
 ```
-First simply unmount this so that you can gvie it a name you prefer and ensure that it is formatted for linux:
+First simply unmount this so that you can give it a name you prefer and ensure that it is formatted for linux:
 
 ```
 picocluster@pc0:~$ sudo umount /media/picocluster/Samsung\ USB
@@ -198,7 +198,7 @@ Now we need the install the NFS software:
 picocluster@pc0:~$ sudo apt update
 picocluster@pc0:~$ sudo apt install nfs-common nfs-kernel-server
 ```
-Then we need to make the file system available to all machines in our cluster by adding this line to /etc/exports (editing it a sudo):
+Then we need to make the file system available to all machines in our cluster by adding this line to /etc/exports (editing it requires a sudo):
 
 ```
 /media/cluster_files *(rw,sync,no_subtree_check)
@@ -209,15 +209,33 @@ picocluster@pc0:~$ sudo service nfs-kernel-server start
 picocluster@pc0:~$ sudo exportfs -a
 ```
 
-### On every node but the head node in the cluster
+### On every node in the cluster but the head node 
 
 The other nodes will be able to mount the file system by doing the following:
 
+We recommend using cssh or a similar program to do this.
 
-1. install nfs
-2. make directory /media/cluster_files
-3. edit fstab
-4. mount -a
+- Install nfs
+```
+sudo apt update
+sudo at install nfs-common nfs-kernel-server
+```
+- Make directory /media/cluster_files
+```
+sudo mkdir /media/cluster_files/
+```
+- Edit fstab (be careful when editing files simultaneously).
+```
+sudo nano /etc/fstab/
+```
+On our system we added the following line:
+```
+pc0:/media/cluster_files /media/cluster_files nfs rsize=8192,wsize=8192,timeo=14,intr
+```
+- Mount the nfs on the workers
+```
+mount -a
+```
 
 ## Hostfile
 
@@ -225,18 +243,18 @@ You will need a file on your NFS mounted file system with a list of the names of
 
 We had the following:
 ```
-pc0:4
-pc1:4
-pc2:4
-pc3:4
-pc4:4
-pc5:4
-pc6:4
-pc7:4
-pc8:4
-pc9:4
+pc0
+pc1
+pc2
+pc3
+pc4
+pc5
+pc6
+pc7
+pc8
+pc9
 ```
-The purpose of the :4 is to avoid round robin scheduling. We did this because the algorithm ran more efficiently with this type of scheduling. The number is 4 because each of our nodes has 4 cores.  
+It is simply a list of all the names of the nodes in your cluster.  
 
 ## Necessary Changes We Made to the Original Code:
 The following describes changes we made to the original code that were absolutely necessary on our system for the code to compile. If working with code cloned from our repository, note that these changes have already been completed.
