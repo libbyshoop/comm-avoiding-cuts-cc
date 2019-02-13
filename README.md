@@ -333,7 +333,7 @@ A comma seperated list with the following in order
 
 #### Example:
 ```
-mpirun -f <NAME_OF_HOST_FILE> -np 4 ./parallel_cc ../../comm-avoiding-cuts-cc/microcluster_testing/input_graphs/mc_er_inputs/real_data_graphs/fb_combined.in
+mpirun -f <NAME_OF_HOST_FILE> -np 4 ./parallel_cc ../../comm-avoiding-cuts-cc/microcluster_testing/input_graphs/real_data_graphs/fb_combined.in
 ```
 
 Note: parallel_cc only works on large graphs.  Very small graphs may cause errors and even medium graphs with large numbers of proccesses can cause errors as well. Generally speaking you need a graph with at least 1200 nodes to be able to run 40 processes on it without it failing.  
